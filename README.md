@@ -10,7 +10,6 @@ API desenvolvida em **Java com Spring Boot** para gerenciamento de produtos, ped
 ✅ Manipulação de dados com Streams  
 ✅ Organização em DTOs para transferência de dados  
 ✅ Estrutura em camadas (Controller, Service, Repository)  
-✅ Integração com banco de dados  
 ✅ API REST para consumo externo  
 
 ---
@@ -19,12 +18,10 @@ API desenvolvida em **Java com Spring Boot** para gerenciamento de produtos, ped
 
 - Java 17+
 - Spring Boot
-- Spring Data JPA
 - Maven
 - Jackson
 - Streams API
 - Git & GitHub
-- Banco de Dados (adicione aqui: MySQL/PostgreSQL/H2)
 
 ---
 
@@ -62,40 +59,6 @@ git clone https://github.com/Guui360gpa/smashpoint-lanchonete-api-java.git
 ```bash
 cd smashpoint-lanchonete-api-java
 ```
-
-### 3. Rodar aplicação
-
-No IntelliJ:
-
-Execute:
-
-```bash
-SmashpointApplication.java
-```
-
-Ou pelo terminal:
-
-```bash
-./mvnw spring-boot:run
-```
-
----
-
-## 🔗 Endpoints
-
-Exemplo:
-
-### Produtos
-
-| Método | Endpoint | Descrição |
-|--------|-----------|------------|
-| GET | /produtos | Lista produtos |
-| POST | /produtos | Cadastra produto |
-| PUT | /produtos/{id} | Atualiza produto |
-| DELETE | /produtos/{id} | Remove produto |
-
-*(Atualize conforme sua API real)*
-
 ---
 
 ## 🧪 Testes
@@ -131,7 +94,7 @@ https://github.com/Guui360gpa
 
 LinkedIn:
 
-(adicione seu LinkedIn)
+www.linkedin.com/in/guilherme-paiva-alves
 
 ---
 
