@@ -33,15 +33,12 @@ src
  ┃ ┣ java
  ┃ ┃ ┗ br/com/lanchonete
  ┃ ┃   ┣ controller
+ ┃ ┃   ┣ main
  ┃ ┃   ┣ service
- ┃ ┃   ┣ repository
  ┃ ┃   ┣ model
- ┃ ┃   ┣ dto
- ┃ ┃   ┗ principal
- ┃ ┗ resources
- ┃    ┣ application.properties
+ ┃ ┃   ┗ testes
+ ┃    ┣ SmashpointAplication.java
  ┃    ┗ ...
- ┗ test
 ```
 
 ---
