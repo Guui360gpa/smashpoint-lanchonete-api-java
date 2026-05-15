@@ -44,15 +44,25 @@ public class ProdutoController implements Controller<DadosProduto> {
     public DadosProduto adicionar(DadosProduto produto) {
         carregar();
 
-        produtos.put(produto.id(), produto);
+        produtos.put(produtos.size() + 1, produto);
 
         salvar();
         return produto;
     }
 
     @Override
-    public DadosProduto buscar(int id) {
+    public List<DadosProduto> buscar(String nome) {
         carregar();
+
+        return produtos.values()
+                .stream()
+                .filter(produto -> produto.title()
+                        .toLowerCase()
+                        .contains(nome.toLowerCase()))
+                .toList();
+    }
+
+    public DadosProduto buscar(int id){
         return produtos.get(id);
     }
 }

@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PedidoController implements Controller<DadosPedido> {
+public class PedidoController {
 
     private final File arquivoJson = new File("pedidos.json");
     private final ObjectMapper mapper = new ObjectMapper();
-    private Map<Integer, DadosPedido> pedidos = new HashMap<>();
+    private Map<Integer, List<DadosPedido>> pedidos = new HashMap<>();
 
 
 
@@ -24,7 +24,7 @@ public class PedidoController implements Controller<DadosPedido> {
             if (arquivoJson.exists()) {
                 pedidos = mapper.readValue(
                         arquivoJson,
-                        new TypeReference<Map<Integer, DadosPedido>>() {}
+                        new TypeReference<Map<Integer, List<DadosPedido>>>() {}
                 );
             }
         } catch (Exception e) {
@@ -43,26 +43,27 @@ public class PedidoController implements Controller<DadosPedido> {
 
 
 
-    @Override
     public List<DadosPedido> listar() {
         carregar();
-        return new ArrayList<>(pedidos.values());
+
+        List<DadosPedido> lista = new ArrayList<>();
+
+        pedidos.values().forEach(lista::addAll);
+
+        return lista;
     }
 
-    @Override
-    public DadosPedido adicionar(DadosPedido pedido) {
+    public void adicionar(List<DadosPedido> pedido) {
         carregar();
 
-        pedidos.put(pedido.id(), pedido);
+        pedidos.put(pedidos.size() + 1, pedido);
 
         salvar();
-        return pedido;
     }
 
-    @Override
-    public DadosPedido buscar(int id) {
+    public List<DadosPedido> buscar(String nome) {
         carregar();
 
-        return pedidos.get(id);
+        return null;
     }
 }

@@ -1,6 +1,7 @@
 package br.com.lanchonete.smashpoint.controller;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Controller<T> {
 
@@ -8,5 +9,5 @@ public interface Controller<T> {
 
     T adicionar(T obj);
 
-    T buscar(int id);
+    List<T> buscar(String nome);
 }

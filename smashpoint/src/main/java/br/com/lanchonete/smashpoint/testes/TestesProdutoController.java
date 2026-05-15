@@ -8,9 +8,9 @@ public class TestesProdutoController {
         var controller = new ProdutoController();
 
         //controller.adicionar(new DadosProduto(id, nomeProduto, preço));
-        controller.adicionar(new DadosProduto(1,"X-Burguer",24.90));
-        controller.adicionar(new DadosProduto(2,"X-Bacon",26.50));
-        controller.adicionar(new DadosProduto(3,"X-Cheddar",25.00));
+        controller.adicionar(new DadosProduto("X-Burguer",24.90));
+        controller.adicionar(new DadosProduto("X-Bacon",26.50));
+        controller.adicionar(new DadosProduto("X-Cheddar",25.00));
 
         System.out.println(controller.listar());
 

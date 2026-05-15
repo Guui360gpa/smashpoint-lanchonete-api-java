@@ -2,5 +2,10 @@ package br.com.lanchonete.smashpoint.model;
 
 
 
-public record DadosProduto(int id, String title, double price) {
+public record DadosProduto(String title, double price) {
+
+    @Override
+    public String toString() {
+        return title + " - R$" + price;
+    }
 }

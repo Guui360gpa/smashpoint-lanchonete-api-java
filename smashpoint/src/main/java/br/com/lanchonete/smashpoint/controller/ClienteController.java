@@ -44,15 +44,20 @@ public class ClienteController implements Controller<DadosCliente> {
     public DadosCliente adicionar(DadosCliente cliente) {
         carregar();
 
-        clientes.put(cliente.id(), cliente);
+        clientes.put(clientes.size() + 1, cliente);
 
         salvar();
         return cliente;
     }
 
     @Override
-    public DadosCliente buscar(int id) {
+    public List<DadosCliente> buscar(String nome) {
         carregar();
-        return clientes.get(id);
+        return clientes.values()
+                .stream()
+                .filter(produto -> produto.nome()
+                        .toLowerCase()
+                        .contains(nome.toLowerCase()))
+                .toList();
     }
 }
