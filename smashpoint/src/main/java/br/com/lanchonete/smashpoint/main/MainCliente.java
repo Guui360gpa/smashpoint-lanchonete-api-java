@@ -1,15 +1,28 @@
 package br.com.lanchonete.smashpoint.main;
 
 import br.com.lanchonete.smashpoint.controller.ClienteController;
-import br.com.lanchonete.smashpoint.model.DadosCliente;
+import br.com.lanchonete.smashpoint.model.Cliente;
+import br.com.lanchonete.smashpoint.repository.ClienteRepository;
 
 public class MainCliente extends Main{
-    private String nomeCliente;
-    private String cpfCliente;
 
+    //Declaração de variaveis
+    private String nomeCliente;
+    private ClienteRepository repository;
+    private ClienteController controller;
+
+    //Construtor
+    public MainCliente(ClienteRepository repositoryCliente) {
+        super(repositoryCliente);
+        this.repository = repositoryCliente;
+        this.controller = new ClienteController(repositoryCliente);
+    }
+
+
+    //Métods
     public void exibirMenuCliente(){
         while (true){
-            controller = new ClienteController();
+
             System.out.println("""
                     
                     [1] Cadastrar Cliente
@@ -22,18 +35,32 @@ public class MainCliente extends Main{
                 System.out.println("Digite o nome do cliente:");
                 nomeCliente = read.nextLine();
 
-                System.out.println("Digite o CPF do cliente:");
-                cpfCliente = read.nextLine();
-
-                controller.adicionar(new DadosCliente(this.nomeCliente,this.cpfCliente));
+                controller.criar(new Cliente(this.nomeCliente));
             } else if (opcao.equals("2")) {
-                controller.listar()
-                        .forEach(System.out::println);
+                controller.ler();
             } else if (opcao.equals("3")) {
-                System.out.println("Qual cliente você deseja buscar?");
+                System.out.println(repository);
+                System.out.println(repositoryCliente);
+                System.out.println("Digite o nome do cliente:");
                 nomeCliente = read.nextLine();
-                controller.buscar(nomeCliente)
-                        .forEach(System.out::println);
+
+                var clientesEncontrados =
+                        repository.findByNomeContainingIgnoreCase(nomeCliente);
+
+                if (clientesEncontrados.isEmpty()) {
+                    System.out.println("Nenhum cliente encontrado.");
+                } else {
+
+                    System.out.println("\nClientes encontrados:");
+
+                    clientesEncontrados.forEach(cliente ->
+                            System.out.println(
+                                    cliente.getId()
+                                            + " - "
+                                            + cliente.getNome()
+                            )
+                    );
+                }
             }else {
                 break;
             }

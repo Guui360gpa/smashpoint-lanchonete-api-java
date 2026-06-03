@@ -1,63 +1,150 @@
 package br.com.lanchonete.smashpoint.main;
 
 import br.com.lanchonete.smashpoint.controller.PedidoController;
-import br.com.lanchonete.smashpoint.controller.ProdutoController;
-import br.com.lanchonete.smashpoint.model.DadosPedido;
-import br.com.lanchonete.smashpoint.model.DadosProduto;
-
+import br.com.lanchonete.smashpoint.model.*;
+import br.com.lanchonete.smashpoint.repository.ClienteRepository;
+import br.com.lanchonete.smashpoint.repository.PedidoRepository;
+import br.com.lanchonete.smashpoint.repository.ProdutoRepository;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainPedido extends Main{
 
-    private AtomicInteger contador = new AtomicInteger(1);
-    private int idProduto;
-    private int quantidade;
-    private double preco;
-    private List<DadosPedido> produtosPedidos = new ArrayList<>();
+    //Declaração de variaveis
+    private PedidoController controller;
 
+    //Construtor
+    public MainPedido(
+            ProdutoRepository repositoryProduto,
+            ClienteRepository repositoryCliente,
+            PedidoRepository repositoryPedido) {
+
+        super(repositoryProduto,
+                repositoryCliente,
+                repositoryPedido);
+
+        this.controller =
+                new PedidoController(repositoryPedido);
+    }
+
+
+    //Métods
     public void exibirMenuPedidos(){
-        while (true){
-            PedidoController controller = new PedidoController();
-            System.out.println("""
-                    
-                    [1] Novo Pedido
-                    [2] Listar Pedidos
-                    """);
-            opcao = read.nextLine();
+                System.out.println("Cliente:");
+                String nomeCliente = read.nextLine();
 
-            if (opcao.equals("1")){
-                ProdutoController produtoController = new ProdutoController();
-                while (true){
-                    List<DadosProduto> produtos = produtoController.listar();
+                List<Cliente> clientesEncontrados =
+                        repositoryCliente.findByNomeContainingIgnoreCase(nomeCliente);
 
-                    for (int i = 0; i < produtos.size(); i++) {
-                        System.out.println("[" + (i + 1) + "] " + produtos.get(i));
-                    }
-                    System.out.println("999 para");
+                if (clientesEncontrados.isEmpty()) {
+                    System.out.println("Nenhum cliente encontrado.");
+                    return;
+                }
 
-                    System.out.println("Qual produto você deseja adicionar?");
-                    idProduto = read.nextInt();
+                System.out.println("Clientes encontrados:");
 
-                    if (idProduto == 999){
+                clientesEncontrados.forEach(cliente ->
+                        System.out.println(
+                                cliente.getId() +
+                                        " - " +
+                                        cliente.getNome()
+                        )
+                );
+
+                Long idCliente;
+                System.out.println("Digite o ID do cliente:");
+
+                try {
+                    idCliente = Long.parseLong(read.nextLine());
+                } catch (NumberFormatException e) {
+                    System.out.println("Digite um número válido.");
+                    return;
+                }
+
+                Cliente cliente =
+                        clientesEncontrados.stream()
+                                .filter(c ->
+                                        c.getId().equals(idCliente)
+                                )
+                                .findFirst()
+                                .orElse(null);
+
+                if (cliente == null) {
+                    System.out.println("ID inválido.");
+                    return;
+                }
+
+                List<ItemPedido> itens = new ArrayList<>();
+
+                while (true) {
+                    System.out.println("Produto (digite fim para encerrar):");
+                    String busca = read.nextLine();
+
+                    if (busca.equalsIgnoreCase("fim")) {
                         break;
                     }
 
+                    List<Produto> encontrados =
+                            repositoryProduto.findByNomeContainingIgnoreCase(busca);
+
+                    if (encontrados.isEmpty()) {
+                        System.out.println("Nenhum produto encontrado.");
+                        continue;
+                    }
+
+                    System.out.println("Produtos encontrados:");
+
+                    encontrados.forEach(produto ->
+                            System.out.println(
+                                    produto.getId() +
+                                            " - " +
+                                            produto.getNome()
+                            )
+                    );
+
+                    System.out.println("Digite o ID do produto:");
+
+                    Long idProduto =
+                            Long.parseLong(read.nextLine());
+
+                    Produto produtoSelecionado =
+                            encontrados.stream()
+                                    .filter(p ->
+                                            p.getId().equals(idProduto)
+                                    )
+                                    .findFirst()
+                                    .orElse(null);
+
+                    if (produtoSelecionado == null) {
+                        System.out.println("ID inválido.");
+                        continue;
+                    }
+
                     System.out.println("Quantidade:");
-                    quantidade = read.nextInt();
 
-                    produtosPedidos.add(new DadosPedido(produtoController.buscar(idProduto),quantidade));
+                    int quantidade =
+                            Integer.parseInt(read.nextLine());
 
+                    ItemPedido item = new ItemPedido();
 
-                    controller.adicionar(produtosPedidos);
+                    item.setProduto(produtoSelecionado);
+                    item.setQuantidade(quantidade);
+                    item.setPrecoUnitario(
+                            produtoSelecionado.getPreco()
+                    );
+
+                    itens.add(item);
                 }
-            } else if (opcao.equals("2")) {
-                controller.listar()
-                        .forEach(System.out::println);
-            }else {
-                break;
+                Pedido pedido = new Pedido();
+                pedido.setCliente(cliente);
+                pedido.setItens(itens);
+                pedido.setTotal(controller.calcularTotalPedido(itens));
+
+                itens.forEach(
+                        item -> item.setPedido(pedido)
+                );
+
+                controller.criar(pedido);
+                System.out.println("Pedido cadastrado com sucesso!");
             }
         }
-    }
-}

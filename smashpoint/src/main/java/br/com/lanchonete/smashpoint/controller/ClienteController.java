@@ -1,63 +1,34 @@
 package br.com.lanchonete.smashpoint.controller;
 
-import br.com.lanchonete.smashpoint.model.DadosCliente;
-import tools.jackson.core.type.TypeReference;
-import tools.jackson.databind.ObjectMapper;
-import java.io.File;
+import br.com.lanchonete.smashpoint.model.Cliente;
+import br.com.lanchonete.smashpoint.repository.ClienteRepository;
 import java.util.*;
 
-public class ClienteController implements Controller<DadosCliente> {
+public class ClienteController{
 
-    private final File arquivoJson = new File("clientes.json");
-    private final ObjectMapper mapper = new ObjectMapper();
-    private Map<Integer, DadosCliente> clientes = new HashMap<>();
+    private List<Cliente> clientes = new ArrayList<>();
+    private ClienteRepository repository;
 
-    private void carregar() {
+    public ClienteController(ClienteRepository repository) {
+        this.repository = repository;
+
+        if (repository == null) {
+            System.out.println("Repository veio NULL");
+        }
+    }
+
+    public void criar(Cliente cliente) {
         try {
-            if (arquivoJson.exists()) {
-                clientes = mapper.readValue(
-                        arquivoJson,
-                        new TypeReference<Map<Integer, DadosCliente>>() {}
-                );
-            }
+            repository.save(cliente);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void salvar() {
-        try {
-            mapper.writerWithDefaultPrettyPrinter()
-                    .writeValue(arquivoJson, clientes);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void ler() {
+        clientes = repository.findAll();
+        clientes.forEach(System.out::println);
     }
 
-    @Override
-    public List<DadosCliente> listar() {
-        carregar();
-        return new ArrayList<>(clientes.values());
-    }
 
-    @Override
-    public DadosCliente adicionar(DadosCliente cliente) {
-        carregar();
-
-        clientes.put(clientes.size() + 1, cliente);
-
-        salvar();
-        return cliente;
-    }
-
-    @Override
-    public List<DadosCliente> buscar(String nome) {
-        carregar();
-        return clientes.values()
-                .stream()
-                .filter(produto -> produto.nome()
-                        .toLowerCase()
-                        .contains(nome.toLowerCase()))
-                .toList();
-    }
 }
