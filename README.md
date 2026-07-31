@@ -1,100 +1,239 @@
-﻿# 🍔 SmashPoint - API de Gerenciamento para Lanchonete
+# 🍔 SmashPoint - Sistema de Gerenciamento para Lanchonete
 
-API desenvolvida em **Java com Spring Boot** para gerenciamento de produtos, pedidos e operações de uma lanchonete. O projeto foi criado com foco em boas práticas de desenvolvimento, organização em camadas e manipulação de dados utilizando recursos modernos do Java.
+## 📖 Sobre o Projeto
 
-## 🚀 Funcionalidades
+O SmashPoint é uma aplicação desenvolvida em Java com Spring Boot para gerenciamento de uma lanchonete. O sistema permite o cadastro e gerenciamento de clientes, produtos e pedidos, utilizando persistência de dados com PostgreSQL e JPA/Hibernate.
 
-✅ Cadastro e gerenciamento de produtos  
-✅ Listagem de itens do cardápio  
-✅ Busca de produtos por nome/categoria  
-✅ Manipulação de dados com Streams  
-✅ Organização em DTOs para transferência de dados  
-✅ Estrutura em camadas (Controller, Service, Repository)  
-✅ API REST para consumo externo  
+O objetivo do projeto é simular o funcionamento básico de uma lanchonete, permitindo registrar clientes, cadastrar produtos disponíveis e criar pedidos relacionando clientes e produtos.
 
 ---
 
-## 🛠 Tecnologias utilizadas
+## 🚀 Tecnologias Utilizadas
 
-- Java 17+
-- Spring Boot
-- Maven
-- Jackson
-- Streams API
-- Git & GitHub
+* Java 21
+* Spring Boot
+* Spring Data JPA
+* Hibernate
+* PostgreSQL
+* Maven
+* Git e GitHub
 
 ---
 
 ## 📂 Estrutura do Projeto
 
-```bash
-src
- ┣ main
- ┃ ┣ java
- ┃ ┃ ┗ br/com/lanchonete
- ┃ ┃   ┣ controller
- ┃ ┃   ┣ main
- ┃ ┃   ┣ service
- ┃ ┃   ┣ model
- ┃ ┃   ┗ testes
- ┃    ┣ SmashpointAplication.java
- ┃    ┗ ...
+```text
+Cliente
+   │
+   └───< Pedido >─── Produto
+            │
+            └── ItemPedido
+```
+
+### Entidades
+
+#### Cliente
+
+Responsável por armazenar os dados dos clientes cadastrados.
+
+Campos:
+
+* id
+* nome
+* dataCadastro
+
+#### Produto
+
+Responsável por armazenar os produtos vendidos pela lanchonete.
+
+Campos:
+
+* id
+* nome
+* categoria
+* preco
+
+#### Pedido
+
+Representa um pedido realizado por um cliente.
+
+Campos:
+
+* id
+* cliente
+* total
+* dataPedido
+
+#### ItemPedido
+
+Representa cada item que compõe um pedido.
+
+Campos:
+
+* id
+* pedido
+* produto
+* quantidade
+* precoUnitario
+
+---
+
+## 🔗 Relacionamentos
+
+### Cliente → Pedido
+
+Um cliente pode realizar vários pedidos.
+
+```java
+@OneToMany
+```
+
+### Pedido → Cliente
+
+Cada pedido pertence a um único cliente.
+
+```java
+@ManyToOne
+```
+
+### Pedido → ItemPedido
+
+Um pedido pode possuir vários itens.
+
+```java
+@OneToMany
+```
+
+### ItemPedido → Pedido
+
+Cada item pertence a um único pedido.
+
+```java
+@ManyToOne
+```
+
+### Produto → ItemPedido
+
+Um produto pode aparecer em diversos pedidos.
+
+```java
+@OneToMany
+```
+
+### ItemPedido → Produto
+
+Cada item referencia um único produto.
+
+```java
+@ManyToOne
 ```
 
 ---
 
-## ⚙️ Como executar o projeto
+## ⚙️ Funcionalidades
 
-### 1. Clonar repositório
+### Clientes
 
-```bash
-git clone https://github.com/Guui360gpa/smashpoint-lanchonete-api-java.git
-```
+* Cadastrar cliente
+* Listar clientes
+* Buscar clientes por nome
 
-### 2. Entrar na pasta
+### Produtos
 
-```bash
-cd smashpoint-lanchonete-api-java
-```
+* Cadastrar produto
+* Listar produtos
+* Buscar produtos por nome
+
+### Pedidos
+
+* Selecionar cliente
+* Buscar produtos por nome
+* Escolher produto pelo ID
+* Informar quantidade
+* Adicionar múltiplos produtos ao pedido
+* Calcular valor total do pedido
+* Salvar pedido no banco de dados
+
 ---
 
-## 🧪 Testes
+## 🔍 Sistema de Busca
 
-Para executar testes:
+O sistema utiliza buscas parciais através do Spring Data JPA.
 
-```bash
-mvn test
+Exemplo:
+
+Entrada:
+
+```text
+Guilherme
+```
+
+Resultado:
+
+```text
+1 - Guilherme Paiva
+2 - Guilherme Almeida
+3 - Guilherme Souza
+```
+
+Da mesma forma para produtos:
+
+```text
+Smash
+```
+
+Resultado:
+
+```text
+1 - Smash Burger
+2 - Smash Bacon
+3 - Smash Duplo
 ```
 
 ---
 
-## 📌 Objetivo do projeto
+## 🛠️ Configuração do Banco de Dados
 
-Este projeto foi desenvolvido para praticar:
+Criar um banco PostgreSQL:
 
-- Desenvolvimento Back-end com Java
-- Construção de APIs REST
-- Organização em camadas
-- Uso de Streams
-- Git/GitHub
-- Boas práticas com Spring Boot
+```sql
+CREATE DATABASE lanchonete;
+```
+
+Configurar o arquivo `application.properties`:
+
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/lanchonete
+spring.datasource.username=seu_usuario
+spring.datasource.password=sua_senha
+
+spring.jpa.hibernate.ddl-auto=update
+```
+
+---
+
+## ▶️ Executando o Projeto
+
+Clone o repositório:
+
+```bash
+git clone <url-do-repositorio>
+```
+
+Entre na pasta:
+
+```bash
+cd smashpoint
+```
+
+Execute:
+
+```bash
+mvn spring-boot:run
+```
 
 ---
 
 ## 👨‍💻 Autor
 
-Desenvolvido por **Guilherme Paiva Alves**
-
-GitHub:
-
-https://github.com/Guui360gpa
-
-LinkedIn:
-
-www.linkedin.com/in/guilherme-paiva-alves
-
----
-
-## 📄 Licença
-
-Projeto desenvolvido para fins educacionais.
+Desenvolvido por Guilherme Paiva como projeto de estudo para aprofundamento em Java, Spring Boot, JPA/Hibernate e PostgreSQL.
