@@ -1,9 +1,6 @@
 package br.com.lanchonete.smashpoint;
 
-import br.com.lanchonete.smashpoint.main.Main;
-import br.com.lanchonete.smashpoint.repository.ClienteRepository;
-import br.com.lanchonete.smashpoint.repository.PedidoRepository;
-import br.com.lanchonete.smashpoint.repository.ProdutoRepository;
+import br.com.lanchonete.smashpoint.controller.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,13 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SmashpointApplication implements CommandLineRunner {
 
 	@Autowired
-	private ProdutoRepository repositoryProduto;
-
-	@Autowired
-	private ClienteRepository repositoryCliente;
-
-	@Autowired
-	private PedidoRepository repositoryPedido;
+	private Controller controller;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SmashpointApplication.class, args);
@@ -27,9 +18,7 @@ public class SmashpointApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Main main = new Main(repositoryProduto,repositoryCliente,repositoryPedido);
-		main.exibirMenuMain();
 
-
+		controller.exibirMenuMain();
 	}
 }

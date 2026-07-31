@@ -1,34 +1,45 @@
 package br.com.lanchonete.smashpoint.controller;
 
-import br.com.lanchonete.smashpoint.model.Cliente;
-import br.com.lanchonete.smashpoint.repository.ClienteRepository;
-import java.util.*;
+import br.com.lanchonete.smashpoint.service.ClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+import java.util.Scanner;
+
+@Controller
 public class ClienteController{
 
-    private List<Cliente> clientes = new ArrayList<>();
-    private ClienteRepository repository;
+    private Scanner read = new Scanner(System.in);
+    private int opcao;
 
-    public ClienteController(ClienteRepository repository) {
-        this.repository = repository;
 
-        if (repository == null) {
-            System.out.println("Repository veio NULL");
+    @Autowired
+    private ClienteService clienteService;
+
+    public void exibirMenuCliente(){
+        while (true){
+
+            System.out.println("""
+                    
+                    [1] Cadastrar Cliente
+                    [2] Listar Clientes
+                    [3] Buscar Clientes
+                    """);
+            opcao = read.nextInt();
+
+            switch (opcao){
+                case 1:
+                    clienteService.cadastrar();
+                    break;
+                case 2:
+                    clienteService.listar();
+                    break;
+                case 3:
+                    clienteService.buscar();
+                    break;
+                default:
+                    break;
+            }
         }
     }
-
-    public void criar(Cliente cliente) {
-        try {
-            repository.save(cliente);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void ler() {
-        clientes = repository.findAll();
-        clientes.forEach(System.out::println);
-    }
-
-
 }

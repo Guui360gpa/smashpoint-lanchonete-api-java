@@ -2,34 +2,47 @@ package br.com.lanchonete.smashpoint.controller;
 
 import br.com.lanchonete.smashpoint.model.Produto;
 import br.com.lanchonete.smashpoint.repository.ProdutoRepository;
-import java.util.*;
+import br.com.lanchonete.smashpoint.service.ProdutoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
-public class ProdutoController {
+import java.math.BigDecimal;
+import java.util.Scanner;
 
-    private List<Produto> produtos = new ArrayList<>();
-    private ProdutoRepository repository;
+@Controller
+public class ProdutoController{
 
-    public ProdutoController(ProdutoRepository repository) {
-        this.repository = repository;
+    private int opcao;
+    private Scanner read = new Scanner(System.in);
 
-        if (repository == null) {
-            System.out.println("Repository veio NULL");
+    @Autowired
+    private ProdutoService service;
+
+    protected void exibirMenuProduto(){
+        while (true){
+            System.out.println("""
+                
+                [1] Novo Produto
+                [2] Ver Produtos
+                [3] Buscar Produto
+                """);
+            opcao = read.nextInt();
+
+            switch (opcao){
+                case 1:
+                    service.cadastrarProduto();
+                    break;
+                case 2:
+                    service.ler();
+                    break;
+                case 3:
+                    service.buscarProduto();
+                    break;
+
+                default:
+                    break;
+            }
         }
-    }
 
-    public void criar(Produto produto) {
-        try {
-            repository.save(produto);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void ler() {
-        produtos = repository.findAll();
-        produtos.stream()
-                .sorted(Comparator.comparing(Produto::getCategoria))
-                .forEach(System.out::println);
     }
 }
-

@@ -1,53 +1,19 @@
 package br.com.lanchonete.smashpoint.controller;
 
-import br.com.lanchonete.smashpoint.model.ItemPedido;
-import br.com.lanchonete.smashpoint.model.Pedido;
-import br.com.lanchonete.smashpoint.repository.PedidoRepository;
-import java.math.BigDecimal;
-import java.util.*;
 
-public class PedidoController {
+import br.com.lanchonete.smashpoint.service.PedidoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
-    private List<Pedido> pedidos = new ArrayList<>();
-    private PedidoRepository repository;
+@Controller
+public class PedidoController{
 
-    public PedidoController(PedidoRepository repository) {
-        this.repository = repository;
+    @Autowired
+    private PedidoService pedidoService;
 
-        if (repository == null) {
-            System.out.println("Repository veio NULL");
-        }
-    }
+    public void realizarPedido(){
 
-    public void criar(Pedido pedido) {
-        try {
-            repository.save(pedido);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+                pedidoService.realizar();
 
-    public void ler() {
-        pedidos = repository.findAll();
-        pedidos.forEach(System.out::println);
-    }
-
-    public BigDecimal calcularTotalPedido(
-            List<ItemPedido> itens
-    ) {
-
-        return itens.stream()
-                .map(item ->
-                        item.getPrecoUnitario()
-                                .multiply(
-                                        BigDecimal.valueOf(
-                                                item.getQuantidade()
-                                        )
-                                )
-                )
-                .reduce(
-                        BigDecimal.ZERO,
-                        BigDecimal::add
-                );
     }
 }
