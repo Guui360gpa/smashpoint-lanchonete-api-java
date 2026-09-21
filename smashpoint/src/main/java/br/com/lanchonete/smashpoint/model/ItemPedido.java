@@ -19,8 +19,10 @@ public class ItemPedido {
     @JoinColumn(name = "produto_id")
     private Produto produto;
 
+    @Column(nullable = false)
     private Integer quantidade;
 
+    @Column(nullable = false)
     private BigDecimal precoUnitario;
 
     public Long getId() {
