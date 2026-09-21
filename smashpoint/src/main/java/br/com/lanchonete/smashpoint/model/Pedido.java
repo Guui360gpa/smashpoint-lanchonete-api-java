@@ -17,20 +17,25 @@ public class Pedido {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+    @Column(nullable = false)
+    private BigDecimal total;
+
+    @Column(nullable = false)
+    private LocalDateTime dataPedido;
+
     @OneToMany(
             mappedBy = "pedido",
             cascade = CascadeType.ALL
     )
     private List<ItemPedido> itens = new ArrayList<>();
-    private BigDecimal total;
-    private LocalDateTime dataPedido;
 
-
-    public Pedido() {
+    public Pedido(Cliente cliente, BigDecimal total) {
+        this.cliente = cliente;
+        this.total = total;
         this.dataPedido = LocalDateTime.now();
     }
 
-
+    public Pedido() {}
 
     public Cliente getCliente() {
         return cliente;
@@ -64,22 +69,11 @@ public class Pedido {
         this.id = id;
     }
 
-
-
     public BigDecimal getTotal() {
         return total;
     }
 
     public void setTotal(BigDecimal total) {
         this.total = total;
-    }
-
-    @Override
-    public String toString() {
-        return "Pedido" +
-                "\ncliente: " + cliente +
-                "\nitens: " + itens +
-                "\ntotal: " + total +
-                "\ndataPedido=" + dataPedido + "\n";
     }
 }
