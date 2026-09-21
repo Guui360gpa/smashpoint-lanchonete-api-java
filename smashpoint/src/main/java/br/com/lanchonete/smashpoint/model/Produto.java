@@ -26,6 +26,10 @@ public class Produto {
     @Column(nullable = false,precision = 10,scale = 2)
     private BigDecimal preco;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @OneToMany(mappedBy = "produto")
     private List<ItemPedido> itensPedidos = new ArrayList<>();
 
@@ -34,6 +38,15 @@ public class Produto {
         this.descricao = descricao;
         this.categoria = Categoria.fromString(categoria.trim());
         this.preco = preco;
+        this.status = Status.ATIVADO;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Produto() {}
