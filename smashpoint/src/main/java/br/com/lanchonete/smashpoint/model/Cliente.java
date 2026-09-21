@@ -16,18 +16,34 @@ public class Cliente {
     @Column(nullable = false)
     private String nome;
 
+    @Column(nullable = false,unique = true)
+    private String cpf;
+
     @Column(nullable = false)
     private LocalDate dataCadastro;
 
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
-    public Cliente(String nome) {
+    public Cliente(String nome,String cpf) {
         this.nome = nome;
+        this.cpf = cpf;
         this.dataCadastro = LocalDate.now();
     }
 
+    public Cliente(String cpf) {
+        this.cpf = cpf;
+    }
+
     public Cliente() {}
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
     public LocalDate getDataCadastro() {
         return dataCadastro;

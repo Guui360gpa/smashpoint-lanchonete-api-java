@@ -40,6 +40,7 @@ Campos:
 
 * id
 * nome
+* cpf
 * dataCadastro
 
 #### Produto
@@ -50,6 +51,7 @@ Campos:
 
 * id
 * nome
+* descricao
 * categoria
 * preco
 
