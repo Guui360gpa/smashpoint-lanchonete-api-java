@@ -5,7 +5,6 @@ import java.util.List;
 public record ClienteResponseDto(
         Long id,
         String nome,
-        String cpf,
-        List<PedidoResponseDto> pedidos
+        String cpf
 ) {
 }
