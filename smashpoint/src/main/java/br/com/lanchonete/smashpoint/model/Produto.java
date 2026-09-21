@@ -17,6 +17,9 @@ public class Produto {
     private String nome;
 
     @Column(nullable = false)
+    private String descricao;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Categoria categoria;
 
@@ -26,12 +29,21 @@ public class Produto {
     @OneToMany(mappedBy = "produto")
     private List<ItemPedido> itensPedidos = new ArrayList<>();
 
-    public Produto() {}
-
-    public Produto(String nome, String categoria, BigDecimal preco) {
+    public Produto(String nome,String descricao, String categoria, BigDecimal preco) {
         this.nome = nome;
+        this.descricao = descricao;
         this.categoria = Categoria.fromString(categoria.trim());
         this.preco = preco;
+    }
+
+    public Produto() {}
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public Long getId() {
@@ -64,10 +76,5 @@ public class Produto {
 
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%d - %s (%s) R$ %s", id, nome, categoria, preco);
     }
 }
