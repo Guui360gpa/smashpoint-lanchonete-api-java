@@ -138,7 +138,7 @@ Cada item referencia um único produto.
 
 * Cadastrar cliente
 * Listar clientes
-* Buscar clientes por nome
+* Buscar clientes por CPF
 
 ### Produtos
 
