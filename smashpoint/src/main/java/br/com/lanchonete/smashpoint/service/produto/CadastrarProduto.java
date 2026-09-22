@@ -34,7 +34,8 @@ public class CadastrarProduto {
                 p.getNome(),
                 p.getDescricao(),
                 p.getCategoria().toString(),
-                p.getPreco().doubleValue()
+                p.getPreco().doubleValue(),
+                p.getStatus()
         );
     }
 
