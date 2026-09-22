@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,13 +18,13 @@ public class ListarProdutosAtivos {
     private final ProdutoRepository produtoRepository;
 
     public List<ProdutoResponseDto> listar (){
-        List<Produto> produtos = produtoRepository.findByStatus(Status.ATIVADO);
+        Optional<List<Produto>> produtosEncontrados = produtoRepository.findByStatus(Status.ATIVADO);
 
-        if (produtos.isEmpty()){
+        if (produtosEncontrados.isEmpty()){
             throw new ListaProdutosVaziaException("Nenhum produto ativo");
         }
 
-        return gerarListaProdutoResponse(produtos);
+        return gerarListaProdutoResponse(produtosEncontrados.get());
     }
 
     private List<ProdutoResponseDto> gerarListaProdutoResponse(List<Produto> produtos){
