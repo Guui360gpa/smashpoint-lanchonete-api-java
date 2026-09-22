@@ -12,7 +12,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
     boolean existsByNome(String nome);
 
-    List<Produto> findByStatus(Status status);
+    Optional<List<Produto>> findByStatus(Status status);
 
     Optional<Produto> findByNome(String nome);
 }
