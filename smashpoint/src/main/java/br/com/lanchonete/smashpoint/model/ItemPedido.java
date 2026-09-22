@@ -25,7 +25,8 @@ public class ItemPedido {
     @Column(nullable = false)
     private BigDecimal precoUnitario;
 
-    public ItemPedido(Produto produto, Integer quantidade) {
+    public ItemPedido(Pedido pedido,Produto produto, Integer quantidade) {
+        this.pedido = pedido;
         this.produto = produto;
         this.quantidade = quantidade;
         this.precoUnitario = produto.getPreco();

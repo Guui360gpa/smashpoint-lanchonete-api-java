@@ -15,7 +15,7 @@ public class AtivarPedido {
 
     private final PedidoRepository pedidoRepository;
 
-    //Só poderá ativar pedido no prazo de 24 depois de ser desativado
+    //Só poderá ativar pedido no prazo de 24 horas depois de ser desativado
     public PedidoResponseDto ativar(Long id){
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new PedidoNaoEncontradoException("Pedido não encontrado"));
