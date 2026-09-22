@@ -5,9 +5,8 @@ import java.util.List;
 
 public record PedidoResponseDto(
         Long id,
+        int numeroMesa,
         String nomeCliente,
-        double total,
-        LocalDateTime dataPedido,
-        List<ItemPedidoResponseDto> itensPedidos
+        double total
 ) {
 }

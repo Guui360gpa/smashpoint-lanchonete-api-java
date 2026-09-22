@@ -13,6 +13,9 @@ public class Pedido {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private int numeroMesa;
+
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
@@ -23,19 +26,40 @@ public class Pedido {
     @Column(nullable = false)
     private LocalDateTime dataPedido;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     @OneToMany(
             mappedBy = "pedido",
             cascade = CascadeType.ALL
     )
     private List<ItemPedido> itens = new ArrayList<>();
 
-    public Pedido(Cliente cliente, BigDecimal total) {
+    public Pedido(Cliente cliente,int numeroMesa) {
         this.cliente = cliente;
-        this.total = total;
+        this.numeroMesa = numeroMesa;
         this.dataPedido = LocalDateTime.now();
+        this.status = Status.ATIVADO;
     }
 
     public Pedido() {}
+
+    public int getNumeroMesa() {
+        return numeroMesa;
+    }
+
+    public void setNumeroMesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public Cliente getCliente() {
         return cliente;
