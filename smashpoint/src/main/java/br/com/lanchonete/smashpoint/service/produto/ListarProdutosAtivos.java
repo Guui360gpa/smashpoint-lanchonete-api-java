@@ -24,19 +24,8 @@ public class ListarProdutosAtivos {
             throw new ListaProdutosVaziaException("Nenhum produto ativo");
         }
 
-        return gerarListaProdutoResponse(produtosEncontrados.get());
+        return produtosEncontrados.get().stream()
+                .map(ProdutoResponseDto::fromEntity)
+                .toList();
     }
-
-    private List<ProdutoResponseDto> gerarListaProdutoResponse(List<Produto> produtos){
-        return produtos.stream()
-                .map(p -> new ProdutoResponseDto(
-                        p.getId(),
-                        p.getNome(),
-                        p.getDescricao(),
-                        p.getCategoria().toString(),
-                        p.getPreco().doubleValue(),
-                        p.getStatus()
-                )).toList();
-    }
-
 }
