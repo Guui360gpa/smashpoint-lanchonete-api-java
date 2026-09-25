@@ -32,6 +32,9 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @Column
+    private LocalDateTime dataDesativacao;
+
     @OneToMany(
             mappedBy = "pedido",
             cascade = CascadeType.ALL

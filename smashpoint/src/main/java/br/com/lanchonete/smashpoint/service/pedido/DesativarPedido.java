@@ -9,6 +9,8 @@ import br.com.lanchonete.smashpoint.repository.PedidoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class DesativarPedido {
@@ -23,23 +25,12 @@ public class DesativarPedido {
             throw new PedidoJaDesativadoException("Pedido já inativo");
         }
 
+        if (pedido.getDataDesativacao() == null) { // só seta na primeira vez
+            pedido.setDataDesativacao(LocalDateTime.now());
+        }
         pedido.setStatus(Status.DESATIVADO);
-        Pedido pedidoSalvo = salvarPedidoNoBanco(pedido);
+        Pedido pedidoSalvo = pedidoRepository.save(pedido);
 
-        return gerarPedidoResponse(pedidoSalvo);
-    }
-
-    private PedidoResponseDto gerarPedidoResponse(Pedido p) {
-        return new PedidoResponseDto(
-                p.getId(),
-                p.getNumeroMesa(),
-                p.getCliente().getNome(),
-                p.getTotal().doubleValue()
-
-        );
-    }
-
-    private Pedido salvarPedidoNoBanco(Pedido pedido) {
-        return pedidoRepository.save(pedido);
+        return PedidoResponseDto.fromEntity(pedidoSalvo);
     }
 }
