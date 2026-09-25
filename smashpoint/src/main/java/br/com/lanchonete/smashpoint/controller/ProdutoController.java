@@ -1,12 +1,8 @@
 package br.com.lanchonete.smashpoint.controller;
 
-import br.com.lanchonete.smashpoint.model.Produto;
-import br.com.lanchonete.smashpoint.repository.ProdutoRepository;
-import br.com.lanchonete.smashpoint.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.math.BigDecimal;
 import java.util.Scanner;
 
 @Controller

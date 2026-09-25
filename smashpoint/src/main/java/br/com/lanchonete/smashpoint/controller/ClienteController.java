@@ -1,6 +1,5 @@
 package br.com.lanchonete.smashpoint.controller;
 
-import br.com.lanchonete.smashpoint.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
