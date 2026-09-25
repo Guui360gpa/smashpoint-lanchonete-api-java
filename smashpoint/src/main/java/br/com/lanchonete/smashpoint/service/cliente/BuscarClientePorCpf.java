@@ -19,12 +19,4 @@ public class BuscarClientePorCpf {
 
         return ClienteResponseDto.fromEntity(cliente);
     }
-
-    private ClienteResponseDto gerarClienteResponse(Cliente c) {
-        return new ClienteResponseDto(
-                c.getId(),
-                c.getNome(),
-                c.getCpf()
-        );
-    }
 }

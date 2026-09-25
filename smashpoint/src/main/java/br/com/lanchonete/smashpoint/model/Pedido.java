@@ -1,14 +1,18 @@
 package br.com.lanchonete.smashpoint.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "pedidos")
+@Getter
+@Setter
 public class Pedido {
 
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +24,6 @@ public class Pedido {
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-
-    @Column(nullable = false)
-    private BigDecimal total;
 
     @Column(nullable = false)
     private LocalDateTime dataPedido;
@@ -46,63 +47,11 @@ public class Pedido {
 
     public Pedido() {}
 
-    public int getNumeroMesa() {
-        return numeroMesa;
-    }
-
-    public void setNumeroMesa(int numeroMesa) {
-        this.numeroMesa = numeroMesa;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public List<ItemPedido> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<ItemPedido> itens) {
-        this.itens = itens;
-    }
-
-    public LocalDateTime getDataPedido() {
-        return dataPedido;
-    }
-
-    public void setDataPedido(LocalDateTime dataPedido) {
-        this.dataPedido = dataPedido;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public BigDecimal getTotal() {
         BigDecimal tot = BigDecimal.ZERO;
         for (ItemPedido i : itens){
             tot = tot.add(i.getTotal());
         }
         return tot;
-    }
-
-    public void setTotal(BigDecimal total) {
-        this.total = total;
     }
 }
