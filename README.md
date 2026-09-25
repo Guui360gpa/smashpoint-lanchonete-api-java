@@ -148,13 +148,17 @@ Cada item referencia um único produto.
 
 ### Pedidos
 
-* Selecionar cliente
-* Buscar produtos por nome
-* Escolher produto pelo ID
-* Informar quantidade
-* Adicionar múltiplos produtos ao pedido
-* Calcular valor total do pedido
-* Salvar pedido no banco de dados
+* Realizar Novo Pedido
+* Listar pedidos ativos (em andamento)
+* Listar pedidos inativos (já pagos)
+* Desativar pedido (após pagamento)
+* Ativar pedido (reverter)
+
+### Item Pedido
+
+* Realizar Novo Item Pedido
+* Listar Itens Pedidos em um Pedido Ativo
+* Remover(Sem soft delete) Itens Pedidos do Pedido Ativo
 
 ---
 
