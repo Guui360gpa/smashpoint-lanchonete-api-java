@@ -44,23 +44,12 @@ public class NovoItemPedido {
             throw new ExcedeLimiteQuantidadeException("Quantidade deve estar entre 1 e 99.");
         }
 
-        ItemPedido itemPedido = salvarItemPedidoNoBanco(new ItemPedido(pedido,produto,dto.quantidade()));
 
-        return gerarItemPedidoResponse(itemPedido);
-    }
+        ItemPedido itemPedido = new ItemPedido(pedido,produto,dto.quantidade());
+        pedido.getItens().add(itemPedido);
 
-    private ItemPedidoResponseDto gerarItemPedidoResponse(ItemPedido i) {
-        return new ItemPedidoResponseDto(
-                i.getId(),
-                i.getProduto().getNome(),
-                i.getPedido().getNumeroMesa(),
-                i.getQuantidade(),
-                i.getPrecoUnitario().doubleValue(),
-                i.getTotal().doubleValue()
-        );
-    }
+        ItemPedido itemPedidoSalvo = itemPedidoRepository.save(itemPedido);
 
-    private ItemPedido salvarItemPedidoNoBanco(ItemPedido itemPedido) {
-        return itemPedidoRepository.save(itemPedido);
+        return ItemPedidoResponseDto.fromEntity(itemPedido);
     }
 }
