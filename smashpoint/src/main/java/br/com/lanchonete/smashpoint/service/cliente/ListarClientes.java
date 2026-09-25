@@ -16,20 +16,14 @@ public class ListarClientes {
     private final ClienteRepository clienteRepository;
 
     public List<ClienteResponseDto> listar(){
-        if (clienteRepository.findAll().isEmpty()){
-            throw new ListaClientesVaziaException("Nenhum cliente cadastrado");
-        }
         List<Cliente> clientes = clienteRepository.findAll();
 
-        return gerarListaClienteResponse(clientes);
-    }
+        if (clientes.isEmpty()){
+            throw new ListaClientesVaziaException("Nenhum cliente cadastrado");
+        }
 
-    private List<ClienteResponseDto> gerarListaClienteResponse(List<Cliente> cs){
-        return cs.stream()
-                .map(c -> new ClienteResponseDto(
-                        c.getId(),
-                        c.getNome(),
-                        c.getCpf()
-                )).toList();
+        return clientes.stream()
+                .map(ClienteResponseDto::fromEntity)
+                .toList();
     }
 }

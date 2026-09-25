@@ -17,7 +17,7 @@ public class BuscarClientePorCpf {
         Cliente cliente = clienteRepository.findByCpf(cpf)
                 .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente não encontrado"));
 
-        return gerarClienteResponse(cliente);
+        return ClienteResponseDto.fromEntity(cliente);
     }
 
     private ClienteResponseDto gerarClienteResponse(Cliente c) {

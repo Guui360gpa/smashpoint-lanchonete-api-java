@@ -20,20 +20,8 @@ public class CadastrarCliente {
         }
 
         Cliente cliente = new Cliente(dto.nome(),dto.cpf());
-        Cliente clienteSalvo = salvarClienteNoBanco(cliente);
+        Cliente clienteSalvo = clienteRepository.save(cliente);
 
-        return gerarClienteResponse(clienteSalvo);
-    }
-
-    private ClienteResponseDto gerarClienteResponse(Cliente c) {
-        return new ClienteResponseDto(
-                c.getId(),
-                c.getNome(),
-                c.getCpf()
-        );
-    }
-
-    private Cliente salvarClienteNoBanco(Cliente cliente) {
-        return clienteRepository.save(cliente);
+        return ClienteResponseDto.fromEntity(clienteSalvo);
     }
 }
