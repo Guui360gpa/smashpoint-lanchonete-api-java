@@ -1,5 +1,7 @@
 package br.com.lanchonete.smashpoint.dto.responses;
 
+import br.com.lanchonete.smashpoint.model.ItemPedido;
+
 public record ItemPedidoResponseDto (
         Long id,
         String nomeProduto,
@@ -7,5 +9,4 @@ public record ItemPedidoResponseDto (
         int quantidade,
         double precoUnitario
 ) {
-
 }

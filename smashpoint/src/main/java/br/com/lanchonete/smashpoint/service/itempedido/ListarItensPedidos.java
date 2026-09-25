@@ -2,9 +2,11 @@ package br.com.lanchonete.smashpoint.service.itempedido;
 
 import br.com.lanchonete.smashpoint.dto.responses.ItemPedidoResponseDto;
 import br.com.lanchonete.smashpoint.exception.ListaItemPedidoVaziaException;
+import br.com.lanchonete.smashpoint.exception.PedidoInativoException;
 import br.com.lanchonete.smashpoint.exception.PedidoNaoEncontradoException;
 import br.com.lanchonete.smashpoint.model.ItemPedido;
 import br.com.lanchonete.smashpoint.model.Pedido;
+import br.com.lanchonete.smashpoint.model.Status;
 import br.com.lanchonete.smashpoint.repository.ItemPedidoRepository;
 import br.com.lanchonete.smashpoint.repository.PedidoRepository;
 import lombok.RequiredArgsConstructor;
