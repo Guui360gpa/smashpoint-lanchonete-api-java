@@ -19,7 +19,9 @@ public class CadastrarCliente {
             throw new ClienteExistenteNoBancoException("Cliente existente");
         }
 
-        Cliente cliente = new Cliente(dto.nome(),dto.cpf());
+        Cliente cliente = (dto.nome() == null || dto.nome().isBlank())
+                ? new Cliente(dto.cpf())
+                : new Cliente(dto.nome(), dto.cpf());
         Cliente clienteSalvo = clienteRepository.save(cliente);
 
         return ClienteResponseDto.fromEntity(clienteSalvo);

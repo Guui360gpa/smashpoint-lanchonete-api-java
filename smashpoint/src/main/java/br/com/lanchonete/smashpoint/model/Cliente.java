@@ -13,7 +13,7 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private String nome;
 
     @Column(nullable = false,unique = true)
@@ -33,6 +33,7 @@ public class Cliente {
 
     public Cliente(String cpf) {
         this.cpf = cpf;
+        this.dataCadastro = LocalDate.now();
     }
 
     public Cliente() {}

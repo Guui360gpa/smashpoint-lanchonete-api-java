@@ -23,24 +23,9 @@ public class CadastrarProduto {
         }
 
         Produto produto = new Produto(dto.nome(),dto.descricao(),dto.categoria(), BigDecimal.valueOf(dto.preco()));
-        Produto produtoSalvo = salvarProdutoNoBanco(produto);
+        Produto produtoSalvo = produtoRepository.save(produto);
 
-        return gerarProdutoResponse(produtoSalvo);
-    }
-
-    private ProdutoResponseDto gerarProdutoResponse(Produto p) {
-        return new ProdutoResponseDto(
-                p.getId(),
-                p.getNome(),
-                p.getDescricao(),
-                p.getCategoria().toString(),
-                p.getPreco().doubleValue(),
-                p.getStatus()
-        );
-    }
-
-    private Produto salvarProdutoNoBanco(Produto produto) {
-        return produtoRepository.save(produto);
+        return ProdutoResponseDto.fromEntity(produtoSalvo);
     }
 
 
