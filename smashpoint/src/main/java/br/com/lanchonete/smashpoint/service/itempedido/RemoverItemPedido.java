@@ -28,29 +28,11 @@ public class RemoverItemPedido {
                 .orElseThrow(() -> new PedidoNaoEncontradoException("Pedido não encontrado"));
 
         pedido.getItens().removeIf(i -> i.getId().equals(idItemPedido));
-        pedido.setTotal(recalcularTotal(pedido.getItens()));
-
         pedidoRepository.save(pedido);
+
         itemPedidoRepository.delete(item);
 
-        return gerarItemPedidoResponse(item);
+        return ItemPedidoResponseDto.fromEntity(item);
 
-    }
-
-    private ItemPedidoResponseDto gerarItemPedidoResponse(ItemPedido i) {
-        return new ItemPedidoResponseDto(
-                i.getId(),
-                i.getProduto().getNome(),
-                i.getPedido().getNumeroMesa(),
-                i.getQuantidade(),
-                i.getPrecoUnitario().doubleValue(),
-                i.getTotal().doubleValue()
-        );
-    }
-
-    private BigDecimal recalcularTotal(List<ItemPedido> itens) {
-        return itens.stream()
-                .map(i -> i.getPrecoUnitario().multiply(BigDecimal.valueOf(i.getQuantidade())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
