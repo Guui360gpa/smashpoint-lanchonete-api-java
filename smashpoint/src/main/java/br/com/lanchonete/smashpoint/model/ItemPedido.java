@@ -32,6 +32,10 @@ public class ItemPedido {
         this.precoUnitario = produto.getPreco();
     }
 
+    public BigDecimal getTotal(){
+        return precoUnitario.multiply(BigDecimal.valueOf(quantidade));
+    }
+
     public Long getId() {
         return id;
     }

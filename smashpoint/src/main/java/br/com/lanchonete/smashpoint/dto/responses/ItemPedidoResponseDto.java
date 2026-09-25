@@ -7,6 +7,7 @@ public record ItemPedidoResponseDto (
         String nomeProduto,
         int numeroMesa,
         int quantidade,
-        double precoUnitario
+        double precoUnitario,
+        double total
 ) {
 }

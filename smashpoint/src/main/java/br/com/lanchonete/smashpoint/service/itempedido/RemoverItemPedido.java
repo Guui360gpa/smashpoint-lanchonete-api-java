@@ -43,7 +43,8 @@ public class RemoverItemPedido {
                 i.getProduto().getNome(),
                 i.getPedido().getNumeroMesa(),
                 i.getQuantidade(),
-                i.getPrecoUnitario().doubleValue()
+                i.getPrecoUnitario().doubleValue(),
+                i.getTotal().doubleValue()
         );
     }
 

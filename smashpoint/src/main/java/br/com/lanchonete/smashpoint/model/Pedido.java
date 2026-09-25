@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "pedidos")
@@ -94,7 +95,11 @@ public class Pedido {
     }
 
     public BigDecimal getTotal() {
-        return total;
+        BigDecimal tot = BigDecimal.ZERO;
+        for (ItemPedido i : itens){
+            tot = tot.add(i.getTotal());
+        }
+        return tot;
     }
 
     public void setTotal(BigDecimal total) {
