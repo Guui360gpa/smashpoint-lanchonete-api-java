@@ -10,4 +10,14 @@ public record ItemPedidoResponseDto (
         double precoUnitario,
         double total
 ) {
+    public static ItemPedidoResponseDto fromEntity(ItemPedido item) {
+        return new ItemPedidoResponseDto(
+                item.getId(),
+                item.getProduto().getNome(),
+                item.getPedido().getNumeroMesa(),
+                item.getQuantidade(),
+                item.getPrecoUnitario().doubleValue(),
+                item.getTotal().doubleValue()
+        );
+    }
 }

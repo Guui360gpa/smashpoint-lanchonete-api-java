@@ -40,8 +40,8 @@ public class NovoItemPedido {
             throw new ProdutoInativoException("Produto inativo para um novo item");
         }
 
-        if (dto.quantidade() > 99){
-            throw new ExcedeLimiteQuantidadeException("Quantidade fora do limite.");
+        if (dto.quantidade() < 1 || dto.quantidade() > 99){
+            throw new ExcedeLimiteQuantidadeException("Quantidade deve estar entre 1 e 99.");
         }
 
         ItemPedido itemPedido = salvarItemPedidoNoBanco(new ItemPedido(pedido,produto,dto.quantidade()));
