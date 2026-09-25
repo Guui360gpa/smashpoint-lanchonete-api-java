@@ -26,17 +26,9 @@ public class ListarPedidosAtivos {
             throw new ListaPedidoVaziaException("Nenhum pedido ativo");
         }
 
-        return gerarListaPedidoResponse(pedidosEncontrados.get());
-    }
-
-    private List<PedidoResponseDto> gerarListaPedidoResponse(List<Pedido> pedidos){
-        return pedidos.stream()
-                .map(p -> new PedidoResponseDto(
-                        p.getId(),
-                        p.getNumeroMesa(),
-                        p.getCliente().getNome(),
-                        p.getTotal().doubleValue()
-                )).toList();
+        return pedidosEncontrados.get().stream()
+                .map(PedidoResponseDto::fromEntity)
+                .toList();
     }
 
 }
