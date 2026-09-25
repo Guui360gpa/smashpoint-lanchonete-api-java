@@ -18,18 +18,7 @@ public class BuscarProdutoPorNome {
         Produto produto = produtoRepository.findByNome(nome)
                 .orElseThrow(() -> new ProdutoNaoEncontradoException("Produto não encontrado"));
 
-        return gerarProdutoResponse(produto);
-    }
-
-    private ProdutoResponseDto gerarProdutoResponse(Produto p) {
-        return new ProdutoResponseDto(
-                p.getId(),
-                p.getNome(),
-                p.getDescricao(),
-                p.getCategoria().toString(),
-                p.getPreco().doubleValue(),
-                p.getStatus()
-        );
+        return ProdutoResponseDto.fromEntity(produto);
     }
 
 }

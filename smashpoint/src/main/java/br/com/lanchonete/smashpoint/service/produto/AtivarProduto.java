@@ -25,23 +25,8 @@ public class AtivarProduto {
         }
 
         produto.setStatus(Status.ATIVADO);
-        Produto produtoSalvo = salvarProdutoNoBanco(produto);
+        Produto produtoSalvo = produtoRepository.save(produto);
 
-        return gerarProdutoResponse(produtoSalvo);
-    }
-
-    private Produto salvarProdutoNoBanco(Produto produto) {
-        return produtoRepository.save(produto);
-    }
-
-    private ProdutoResponseDto gerarProdutoResponse(Produto p) {
-        return new ProdutoResponseDto(
-                p.getId(),
-                p.getNome(),
-                p.getDescricao(),
-                p.getCategoria().toString(),
-                p.getPreco().doubleValue(),
-                p.getStatus()
-        );
+        return ProdutoResponseDto.fromEntity(produtoSalvo);
     }
 }
