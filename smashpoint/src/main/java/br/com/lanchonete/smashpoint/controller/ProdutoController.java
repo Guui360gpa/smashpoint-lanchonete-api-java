@@ -1,44 +1,61 @@
 package br.com.lanchonete.smashpoint.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import br.com.lanchonete.smashpoint.dto.requests.ProdutoRequestDto;
+import br.com.lanchonete.smashpoint.dto.responses.ProdutoResponseDto;
+import br.com.lanchonete.smashpoint.service.produto.*;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Scanner;
+import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("/produtos")
+@RequiredArgsConstructor
 public class ProdutoController{
 
-    private int opcao;
-    private Scanner read = new Scanner(System.in);
+    private final CadastrarProduto cadastrarProduto;
+    private final ListarProdutosAtivos listarProdutosAtivos;
+    private final ListarProdutosInativos listarProdutosInativos;
+    private final BuscarProdutoPorNome buscarProduto;
+    private final DesativarProduto desativarProduto;
+    private final AtivarProduto ativarProduto;
 
-    @Autowired
-    private ProdutoService service;
+    @PostMapping
+    public ResponseEntity<ProdutoResponseDto> cadastro(@Valid @RequestBody ProdutoRequestDto dto){
+        ProdutoResponseDto produtoResponse = cadastrarProduto.cadastrar(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoResponse);
+    }
 
-    protected void exibirMenuProduto(){
-        while (true){
-            System.out.println("""
-                
-                [1] Novo Produto
-                [2] Ver Produtos
-                [3] Buscar Produto
-                """);
-            opcao = read.nextInt();
+    @GetMapping("/{nome}")
+    public ResponseEntity<ProdutoResponseDto> busca(@PathVariable String nome){
+        ProdutoResponseDto produtoResponse = buscarProduto.buscar(nome);
+        return ResponseEntity.ok(produtoResponse);
+    }
 
-            switch (opcao){
-                case 1:
-                    service.cadastrarProduto();
-                    break;
-                case 2:
-                    service.ler();
-                    break;
-                case 3:
-                    service.buscarProduto();
-                    break;
+    @GetMapping("/ativos")
+    public ResponseEntity<List<ProdutoResponseDto>> listaAtivo(){
+        List<ProdutoResponseDto> produtoResponses = listarProdutosAtivos.listar();
+        return ResponseEntity.ok(produtoResponses);
+    }
 
-                default:
-                    break;
-            }
-        }
+    @GetMapping("/inativos")
+    public ResponseEntity<List<ProdutoResponseDto>> listaInativo(){
+        List<ProdutoResponseDto> produtoResponses = listarProdutosInativos.listar();
+        return ResponseEntity.ok(produtoResponses);
+    }
 
+    @PatchMapping("/{nome}/desativar")
+    public ResponseEntity<ProdutoResponseDto> desativa(@PathVariable String nome){
+        ProdutoResponseDto produtoResponse = desativarProduto.desativar(nome);
+        return ResponseEntity.ok(produtoResponse);
+    }
+
+    @PatchMapping("/{nome}/ativar")
+    public ResponseEntity<ProdutoResponseDto> ativa(@PathVariable String nome){
+        ProdutoResponseDto produtoResponse = ativarProduto.ativar(nome);
+        return ResponseEntity.ok(produtoResponse);
     }
 }
