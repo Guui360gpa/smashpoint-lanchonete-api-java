@@ -1,6 +1,7 @@
 package br.com.lanchonete.smashpoint.service.pedido;
 
 import br.com.lanchonete.smashpoint.dto.responses.PedidoResponseDto;
+import br.com.lanchonete.smashpoint.exception.PedidoJaAtivoException;
 import br.com.lanchonete.smashpoint.exception.PedidoJaDesativadoException;
 import br.com.lanchonete.smashpoint.exception.PedidoNaoEncontradoException;
 import br.com.lanchonete.smashpoint.exception.PrazoReativacaoExpiradoException;
@@ -23,7 +24,7 @@ public class AtivarPedido {
                 .orElseThrow(() -> new PedidoNaoEncontradoException("Pedido não encontrado"));
 
         if (pedido.getStatus().equals(Status.ATIVADO)){
-            throw new PedidoJaDesativadoException("Pedido já ativo");
+            throw new PedidoJaAtivoException("Pedido já ativo");
         }
 
         if (pedido.getDataDesativacao().isBefore(LocalDateTime.now().minusHours(24))) {
